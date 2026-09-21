@@ -1,0 +1,59 @@
+[project]
+name = "waste-classifier"
+version = "0.1.0"
+description = "Waste material image classification service"
+requires-python = ">=3.14,<3.15"
+dependencies = [
+    "numpy",
+    "pandas",
+    "pillow",
+    "scikit-learn",
+    "matplotlib",
+    "jupyter",
+    "torch",
+    "torchvision",
+    "onnx",
+    "onnxruntime",
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic",
+    "structlog",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-cov",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+ 
+ [tool.uv.sources]
+torch = [{ index = "pytorch-cu130" }]
+torchvision = [{ index = "pytorch-cu130" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.coverage.run]
+source = ["src/waste_classifier"]
+omit = [
+    "src/waste_classifier/train.py",
+    "src/waste_classifier/train_resnet.py",
+    "src/waste_classifier/evaluate.py",
+    "src/waste_classifier/evaluate_resnet.py",
+    "src/waste_classifier/export_onnx.py",
+    "src/waste_classifier/test_onnx.py",
+    "src/waste_classifier/inspect_errors.py",
+]
